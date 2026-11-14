@@ -6,7 +6,7 @@ This repository contains the Task 1 deliverable for **HiveSpace Coworking**, foc
 ## Repository Contents
 * `log_creator.py` — Python script used to generate the simulated 500-line SSH `auth.log` dataset.
 * `auth.log` — Simulated 500-line SSH authentication log dataset containing external failed login attempts and internal successful logins[cite: 2].
-* `script.sh` — Bash log-parsing script using `grep`, `awk`, `sort`, `uniq`, and `sed` to extract and rank the top 5 attacking IP addresses[cite: 2].
+* `script.sh` — Bash log-parsing script using `grep` to filter failed attempts, `awk` to extract the IP address following `"from"` and calculate the top IP's timestamp span, `sort`/`uniq` to count and rank frequencies, and `sed` to format the output.
 * `README.md` — Summary of findings, brute-force pattern analysis, and usage instructions[cite: 2].
 
 ## Top 5 Attacking IP Addresses Identified
@@ -29,8 +29,11 @@ Out of **8 distinct external source IPs** responsible for the 437 failed login a
 * **Normal User Baseline vs. Attack Behavior:** Internal IP addresses recorded only `Accepted password` events (63 total) with zero failed login attempts, meaning this sample dataset contains no accidental staff password typos. Distinguishing normal activity from attacks relies on persistence and lack of success: the top 5 external IPs generated 30–179 consecutive failures each with zero successful authentications, clearly separating automated brute-force bursts from low-volume background scanners (2–8 attempts).
 * **Recommended Detection Threshold:** Time-span analysis of the top attacking IP (`203.0.113.50`) shows **179 failed attempts spread across ~23.5 hours** (~7.6 attempts/hour, or 1 attempt every ~8 minutes), representing a sustained, low-rate ("slow-and-steady") brute-force attack rather than a rapid burst. Therefore, a short 5-minute threshold would miss this pattern; HiveSpace should enforce a sliding threshold of **10 or more failed SSH login attempts within a 2-hour window** (or **15+ failures within 24 hours**) without a successful authentication to catch persistent distributed attacks while ignoring isolated 1–2 attempt staff typos.
 
+
 ## How to Run the Analysis
 1. Clone the repository:
    ```bash
    git clone [https://github.com/nobletimefashion-pixel/Apache-Log-analysis.git](https://github.com/nobletimefashion-pixel/Apache-Log-analysis.git)
    cd Apache-Log-analysis
+
+> **Platform Note:** `script.sh` relies on GNU `date -d` for the timestamp span calculation and requires a Linux shell, Git Bash with GNU coreutils, or WSL (Windows Subsystem for Linux) when running on Windows.
