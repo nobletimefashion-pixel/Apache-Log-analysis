@@ -30,6 +30,9 @@ This repository contains the Task 1 deliverable for **HiveSpace Coworking**, foc
    git clone [https://github.com/nobletimefashion-pixel/Apache-Log-analysis.git](https://github.com/nobletimefashion-pixel/Apache-Log-analysis.git)
    cd Apache-Log-analysis
 
+# Executing the script
+  bash script.sh
+
 # results
 
      94 ubuntu
