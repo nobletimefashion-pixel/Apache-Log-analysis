@@ -1,0 +1,12 @@
+Script started on 2026-11-13 22:29:36+05:00 [TERM="xterm-256color" TTY="/dev/pts/3" COLUMNS="135" LINES="40"]
+^C
+]0;darklord@darklord-hpmt41:~/internship_work[?2004h[1m[34m[ [1m[36mdarklord-hpmt41 [1m[30m~/internship_work[1m[30m [1m[34m][1m[36m$ (B[mkillall chrome
+[?2004l]0;darklord@darklord-hpmt41:~/internship_work[?2004h[1m[34m[ [1m[36mdarklord-hpmt41 [1m[30m~/internship_work[1m[30m [1m[34m][1m[36m$ (B[mkillall firefox
+[?2004lfirefox: no process found
+]0;darklord@darklord-hpmt41:~/internship_work[?2004h[1m[34m[ [1m[36mdarklord-hpmt41 [1m[30m~/internship_work[1m[30m [1m[34m][1m[36m$ (B[mclear
+[?2004l[H[2J[3J]0;darklord@darklord-hpmt41:~/internship_work[?2004h[1m[34m[ [1m[36mdarklord-hpmt41 [1m[30m~/internship_work[1m[30m [1m[34m][1m[36m$ (B[mls
+[?2004lauth.log  log_creator.py  README.md  [0m[01;32mscript.sh[0m  top_attackers.txt  typescript
+]0;darklord@darklord-hpmt41:~/internship_work[?2004h[1m[34m[ [1m[36mdarklord-hpmt41 [1m[30m~/internship_work[1m[30m [1m[34m][1m[36m$ (B[m[?2004l
+exit
+
+Script done on 2026-11-13 23:31:06+05:00 [COMMAND_EXIT_CODE="0"]

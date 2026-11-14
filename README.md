@@ -1,36 +1,31 @@
-# Apache-Log-analysis
 # SOC Incident Response & Hardening — Task 1: Authentication Log Triage
 
+## Overview
+This repository contains the Task 1 deliverable for **HiveSpace Coworking**, focusing on analyzing and triaging SSH authentication logs (`auth.log`) to detect brute-force login activity and establish a detection baseline for the local management server.
 
-# Overview
+## Repository Contents
+* `auth.log` — Simulated 500-line SSH authentication log dataset.
+* `script.sh` — Bash log-parsing script using `grep`, `awk`, `sort`, `uniq`, and `sed` to extract and rank the top 5 attacking IP addresses.
+* `README.md` — Summary of findings, brute-force pattern analysis, and usage instructions.
 
-## Repo Contents
+## Top 5 Attacking IP Addresses Identified
 
-* `auth.log` - contains 500 lines of SSH authentication dataset
-* `script.sh` - Log parsing script in bash tools used grep,awk,sort,uniq,sed
-* `README.md` - Summary of findings , brute-force pattern analysis and usage instructions
-
-# Top 5 Attacking IP Address Identified
-
-List of top 5 Attacking IP addresses identified
-
-IP: 203.0.113.50 - Failed Attempts: 79
-IP: 192.0.2.15 - Failed Attempts: 78
-IP: 198.51.100.23 - Failed Attempts: 73
-IP: 45.33.32.156 - Failed Attempts: 67
-IP: 185.220.101.4 - Failed Attempts: 66
+| Rank | Source IP Address | Failed Attempts | Share of Top 5 |
+| :--- | :--- | :--- | :--- |
+| 1 | `203.0.113.50` | 79 | 21.8% |
+| 2 | `192.0.2.15` | 78 | 21.5% |
+| 3 | `198.51.100.23` | 73 | 20.1% |
+| 4 | `45.33.32.156` | 67 | 18.5% |
+| 5 | `185.220.101.4` | 66 | 18.2% |
 
 ## Summary of Findings: Brute-Force Pattern Analysis
-* **Attack Signatures:** External source IPs generated rapid, consecutive failed SSH login attempts within short time windows, systematically cycling through high-privilege and default system usernames (`root`, `admin`, `ubuntu`, `postgres`, `oracle`).
-* **Normal User Baseline vs. Attack Behavior:** Internal staff IP addresses (`192.168.1.x`) exhibited only isolated failed attempts (1–3 failures caused by password typos) followed by successful `Accepted publickey` or valid login events. In contrast, the top 5 external IPs recorded zero successful authentications and high-frequency bursts.
-* **Recommended Detection Threshold:** Any source IP generating **5 or more failed SSH login attempts within a 5-minute window** without a successful authentication should be flagged as a brute-force incident and blocked at the firewall/Fail2Ban level.
+* **Distributed Brute-Force Signature:** The 500-line `auth.log` captures an active, multi-source SSH brute-force window consisting exclusively of failed password authentication events (`Failed password`) with zero successful logins recorded. Rather than a single noisy source, the top 5 external IPs generated a sustained, nearly uniform volume of attempts (66–79 failed attempts each, accounting for 363 of the 500 log entries).
+* **Targeted Accounts:** *(Update this list if your `awk` check above shows additional usernames)* Attackers repeatedly targeted standard administrative and default cloud service accounts (`admin`, `ubuntu`) across randomized high source ports.
+* **Normal User Baseline vs. Attack Behavior:** Because this sample log contains only failed external authentication attempts and no normal user login baseline, distinguishing accidental user typos from automated attacks relies on attempt frequency and persistence. Normal user typos typically produce 1–3 isolated failures followed by a successful login, whereas these external IPs generated dozens of consecutive failures with zero successful authentications.
+* **Recommended Detection Threshold:** Any source IP generating **5 or more failed SSH login attempts within a 5-minute window** without a successful authentication should be classified as a brute-force attack and blocked via firewall rules or Fail2Ban.
 
 ## How to Run the Analysis
 1. Clone the repository:
-   git clone https://github.com/nobletimefashion-pixel/Apache-Log-analysis.git
+   ```bash
+   git clone [https://github.com/nobletimefashion-pixel/Apache-Log-analysis.git](https://github.com/nobletimefashion-pixel/Apache-Log-analysis.git)
    cd Apache-Log-analysis
-2. Execute the script:
-   bash script.sh
-3.Update the Exact Counts and Verify
-1. Open `README.md` in `nano` (or your preferred editor) to replace the approximate numbers (`~225`, etc.) and `<your-repo-name>` with your exact script output and GitHub repository name:
-   nano README.md
